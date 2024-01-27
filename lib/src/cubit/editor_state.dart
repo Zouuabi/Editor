@@ -1,6 +1,13 @@
 part of 'editor_cubit.dart';
 
-enum Status { initial, textAdded, textFontSizeChanged, textSelected }
+enum Status {
+  initial,
+  textAdded,
+  textFontSizeChanged,
+  textSelected,
+  colorChanged,
+  fontFamilyChanged
+}
 
 class EditorState extends Equatable {
   final Status status;

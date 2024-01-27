@@ -26,10 +26,16 @@ class HomePage extends StatelessWidget {
                     child: Row(
                       children: [
                         IconButton(
-                            onPressed: () {}, icon: const Icon(Icons.undo)),
+                            onPressed: () {
+                              BlocProvider.of<EditorCubit>(context).undo();
+                            },
+                            icon: const Icon(Icons.undo)),
                         const SizedBox(width: 20),
                         IconButton(
-                            onPressed: () {}, icon: const Icon(Icons.redo)),
+                            onPressed: () {
+                              BlocProvider.of<EditorCubit>(context).redo();
+                            },
+                            icon: const Icon(Icons.redo)),
                       ],
                     ),
                   ),

@@ -26,20 +26,14 @@ class EditorCubit extends Cubit<EditorState> {
   // A list of states that we can redo.
   final List<EditorState> _redos = [];
 
-  @override
-  void emit(EditorState state) {
-    _undos.add(state);
-    _redos.clear();
-    super.emit(state);
-  }
-
   void undo() {
     // if the _undos is empty we can not go back
     if (_undos.isEmpty) return;
+
     // remove the last state
-    final state = _undos.removeLast();
+    final stte = _undos.removeLast();
     // add the removed state to the redos so we can roll back to it
-    _redos.add(state);
+    _redos.add(stte);
     // emit the last state in the undoes (the state we want to roll back to)
 
     final EditorState lastState = _undos.last;
@@ -47,7 +41,6 @@ class EditorCubit extends Cubit<EditorState> {
   }
 
   void redo() {
-    // if the _redos is empty we can not go forward
     if (_redos.isEmpty) return;
 
     final EditorState stte = _redos.removeLast();
@@ -74,6 +67,8 @@ class EditorCubit extends Cubit<EditorState> {
     List<TextModel> updatedData = List.from(data);
 
     emit(EditorState(status: Status.textAdded, data: updatedData));
+    _undos.add(state);
+    _redos.clear();
   }
 
   /// Selects a text item from the data list.
@@ -87,6 +82,8 @@ class EditorCubit extends Cubit<EditorState> {
 
     List<TextModel> updatedData = List.from(data);
     emit(EditorState(data: updatedData, status: Status.textSelected));
+    _undos.add(state);
+    _redos.clear();
   }
 
   /// Changes the font size of the selected text.
@@ -105,6 +102,8 @@ class EditorCubit extends Cubit<EditorState> {
 
       List<TextModel> updatedData = List.from(data);
       emit(EditorState(data: updatedData, status: Status.textFontSizeChanged));
+      _undos.add(state);
+      _redos.clear();
     }
   }
 
@@ -119,7 +118,9 @@ class EditorCubit extends Cubit<EditorState> {
       // Create a new list from the existing data for immutability
       List<TextModel> updatedData = List.from(data);
 
-      emit(EditorState(data: updatedData, status: Status.textFontSizeChanged));
+      emit(EditorState(data: updatedData, status: Status.colorChanged));
+      _undos.add(state);
+      _redos.clear();
     }
   }
 
@@ -134,7 +135,9 @@ class EditorCubit extends Cubit<EditorState> {
       // Create a new list from the existing data for immutability
       List<TextModel> updatedData = List.from(data);
 
-      emit(EditorState(data: updatedData, status: Status.textFontSizeChanged));
+      emit(EditorState(data: updatedData, status: Status.fontFamilyChanged));
+      _undos.add(state);
+      _redos.clear();
     }
   }
 

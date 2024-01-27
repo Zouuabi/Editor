@@ -50,17 +50,13 @@ class EditableDragballTextState extends State<EditableDragballText> {
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text(
-                      'Edit text',
-                      style: TextStyle(color: Colors.white),
+                    title: const Center(
+                      child: Text(
+                        'Edit text',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                     content: TextField(
-                      onEditingComplete: () {
-                        print('complete');
-                      },
-                      onSubmitted: (value) {
-                        print("submitted");
-                      },
                       decoration: const InputDecoration(
                           hintText: 'Double Tap to Edit Me !'),
                       controller: _controller,
